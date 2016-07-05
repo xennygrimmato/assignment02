@@ -3,6 +3,6 @@ public class WaterHeater extends CommonAppliance {
     
     public WaterHeater() {
         super();
-        this.name = "Cooking Oven";
+        this.name = "Water Heater";
     }
 }

@@ -42,7 +42,12 @@ public class CommonAppliance implements Appliance {
     }
     
     public void addEvent(Event event) {
-        eventQueue.add(event);
+        this.eventQueue.add(event);
+        Status status = event.getStatus();
+        Integer time = event.getTime();
+        if(status == Status.ON && this.autoOffTime != 0) {
+            this.eventQueue.add(new Event(Status.OFF, time + this.autoOffTime));
+        }
     }
     
     public void sortEventQueue() {
