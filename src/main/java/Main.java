@@ -85,6 +85,9 @@ public class Main {
                 if(mySmartHome.eventChange()) {
                     mySmartHome.printStatus();    
                 }
+                if(mySmartHome.allEventQueuesComplete()) {
+                    break;
+                }
                 Thread.sleep(1000);
             }
         }
