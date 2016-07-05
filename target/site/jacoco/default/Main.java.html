@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.cnu2016.assigment2</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.Arrays;
+import java.lang.Thread;
+
+
+<span class="nc" id="L9">public class Main {</span>
+
+    private static SmartHome mySmartHome;
+    private static AirConditioner airConditioner;
+    private static CookingOven cookingOven;
+    private static WaterHeater waterHeater;
+    private static BufferedReader br;
+    
+    public static void readFile() {
+        try {
+<span class="nc" id="L19">            br = new BufferedReader(new FileReader(&quot;/projects/assignment02/src/main/input.txt&quot;));</span>
+            String line;
+<span class="nc bnc" id="L21" title="All 2 branches missed.">            while ((line = br.readLine()) != null) {</span>
+                //System.out.println(line);
+               // process the line
+<span class="nc" id="L24">               List&lt;String&gt; items = Arrays.asList(line.split(&quot; &quot;));</span>
+               
+               // Line must have 3 space-separated or comma-separated inputs
+<span class="nc bnc" id="L27" title="All 2 branches missed.">               if(items.size() &lt; 3) {</span>
+<span class="nc" id="L28">                   continue;</span>
+               }
+               
+<span class="nc" id="L31">               String applianceName = items.get(0);</span>
+<span class="nc" id="L32">               String statusString = items.get(1);</span>
+               Status status;
+<span class="nc bnc" id="L34" title="All 2 branches missed.">               if(statusString.equals(&quot;ON&quot;)) {</span>
+<span class="nc" id="L35">                   status = Status.ON;</span>
+               } else {
+<span class="nc" id="L37">                   status = Status.OFF;</span>
+               }
+<span class="nc" id="L39">               String timeString = items.get(2);</span>
+<span class="nc" id="L40">               Integer time = Integer.parseInt(timeString);</span>
+               
+<span class="nc" id="L42">               Event event = new Event(status, time);</span>
+               
+<span class="nc bnc" id="L44" title="All 2 branches missed.">               if(applianceName.contains(&quot;AC&quot;)) {</span>
+                   // add event to eventQueue of AirConditioner
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                   if(!airConditioner.getEventQueue().contains(event))</span>
+<span class="nc" id="L47">                        airConditioner.addEvent(event);</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">               } else if(applianceName.contains(&quot;OVEN&quot;)) {</span>
+                   // add event to eventQueue of CookingOven
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                   if(!cookingOven.getEventQueue().contains(event))</span>
+<span class="nc" id="L51">                        cookingOven.addEvent(event);</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">               } else if(applianceName.contains(&quot;WH&quot;)) {</span>
+                   // add event to eventQueue of WaterHeater
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                    if(!waterHeater.getEventQueue().contains(event))</span>
+<span class="nc" id="L55">                        waterHeater.addEvent(event);</span>
+               } else {
+                   // Unrecognized appliance in input
+<span class="nc" id="L58">                   System.out.println(&quot;Unknown appliance: &quot; + applianceName);</span>
+                   // can possibly auto-generate class for this new appliance
+               }
+               
+<span class="nc" id="L62">            }</span>
+        }
+
+<span class="nc" id="L65">        catch(IOException e) { // Handle IO Exception</span>
+<span class="nc" id="L66">            System.out.println(e.getMessage());</span>
+        }
+        
+<span class="nc" id="L69">        finally {</span>
+            
+
+<span class="nc" id="L72">        }</span>
+<span class="nc" id="L73">    }</span>
+    
+    public static SmartHome getSmartHome() {
+<span class="nc" id="L76">        return mySmartHome;</span>
+    }
+    
+    public static void simulate() {
+        
+        try {
+<span class="nc" id="L82">            mySmartHome.printStatus();</span>
+            while(true) {
+<span class="nc" id="L84">                mySmartHome.incrementTimer();</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                if(mySmartHome.eventChange()) {</span>
+<span class="nc" id="L86">                    mySmartHome.printStatus();    </span>
+                }
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                if(mySmartHome.allEventQueuesComplete()) {</span>
+<span class="nc" id="L89">                    break;</span>
+                }
+<span class="nc" id="L91">                Thread.sleep(1000);</span>
+            }
+        }
+<span class="nc" id="L94">        catch(InterruptedException e) {</span>
+            // handle InterruptedException
+<span class="nc" id="L96">        }</span>
+<span class="nc" id="L97">    }</span>
+
+    public static void main(String[] args) {
+        // create instance of smart home
+<span class="nc" id="L101">        mySmartHome = new SmartHome();</span>
+        
+        // create instance of appliance 1
+<span class="nc" id="L104">        airConditioner = new AirConditioner();</span>
+        
+        // create instance of appliance 2
+<span class="nc" id="L107">        cookingOven = new CookingOven();</span>
+        
+        // create instance of appliance 3
+<span class="nc" id="L110">        waterHeater = new WaterHeater();</span>
+        
+        // add all appliances to smart home instance
+<span class="nc" id="L113">        mySmartHome.addAppliance(airConditioner);</span>
+<span class="nc" id="L114">        mySmartHome.addAppliance(cookingOven);</span>
+<span class="nc" id="L115">        mySmartHome.addAppliance(waterHeater);</span>
+        
+        // read commands from file and events to respective queues
+<span class="nc" id="L118">        readFile();</span>
+        
+        // start time ticker
+<span class="nc" id="L121">        simulate();</span>
+<span class="nc" id="L122">    }</span>
+    
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
