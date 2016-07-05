@@ -11,6 +11,7 @@ public class CommonAppliance implements Appliance {
     protected List<Event> eventQueue;
 
     CommonAppliance() {
+        this.name = "";
         this.status = Status.OFF;
         this.eventQueue = new ArrayList<Event>();
         this.autoOffTime = 0;
