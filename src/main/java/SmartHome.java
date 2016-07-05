@@ -1,9 +1,15 @@
-import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class SmartHome {
-    private Set<Appliance> applianceList;
+    private List<Appliance> applianceList;
     private Integer timer = 0;
+    
+    public SmartHome() {
+        applianceList = new ArrayList<Appliance>();
+        this.timer = 0;
+    }
     
     public void addAppliance(Appliance appliance) {
         applianceList.add(appliance);
@@ -35,8 +41,15 @@ public class SmartHome {
         // if timestamp matches with timer, we have an event change: return true
         // if timestamp of no appliance matches with timer, return false
         boolean changeStatus = false;
+        List<Event> eventList;
         for(Appliance appliance : applianceList) {
-            Event event = appliance.getEventQueue().get(0);
+            eventList = appliance.getEventQueue();
+            Event event;
+            if(eventList.size() > 0) {
+                event = eventList.get(0);
+            } else {
+                continue;
+            }
             if(event.getTime() == this.timer) {
                 changeStatus = true;
                 appliance.setStatus(event.getStatus());

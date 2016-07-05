@@ -1,5 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class CookingOven implements Appliance {
     private String name;
@@ -8,6 +10,8 @@ public class CookingOven implements Appliance {
     private List<Event> eventQueue;
     
     public CookingOven() {
+        this.name = "Cooking Oven";
+        this.status = Status.OFF;
         this.autoOffTime = 0;
         this.eventQueue = new ArrayList<Event>();
     }
@@ -42,6 +46,11 @@ public class CookingOven implements Appliance {
     
     public void sortEventQueue() {
         // sorts events in the eventQueue by time
+        Collections.sort(eventQueue, new Comparator<Event>() {
+            public int compare(Event one, Event other) {
+                return one.getTime().compareTo(other.getTime());
+            }
+        });
     }
     
     public List<Event> getEventQueue() {
