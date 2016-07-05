@@ -16,16 +16,20 @@ public class Main {
     
     public static void readFile() {
         try {
-            br = new BufferedReader(new FileReader("input.txt"));
+            br = new BufferedReader(new FileReader("/projects/assignment02/src/main/input.txt"));
             String line;
             while ((line = br.readLine()) != null) {
+                //System.out.println(line);
                // process the line
-               List<String> items = Arrays.asList(line.split("\\s*,\\s*"));
+               List<String> items = Arrays.asList(line.split(" "));
                
                // Line must have 3 space-separated or comma-separated inputs
                if(items.size() < 3) {
-                   System.out.println("Invalid input!");
-                   break;
+                   //System.out.println(line);
+                   //break;
+                   //System.out.println("Size = " + items.size());
+                   //System.out.println("Inside < 3 if. Continuing...");
+                   continue;
                }
                
                String applianceName = items.get(0);
@@ -43,16 +47,20 @@ public class Main {
                
                if(applianceName.contains("AC")) {
                    // add event to eventQueue of AirConditioner
+                   //System.out.println("READ: AC");
+                   //System.out.println(event.getStatus());
+                   //System.out.println(event.getTime());
+                   //System.out.println("=========");
                    airConditioner.addEvent(event);
-               } else if(applianceName.contains("Oven")) {
+               } else if(applianceName.contains("OVEN")) {
                    // add event to eventQueue of CookingOven
                    cookingOven.addEvent(event);
-               } else if(applianceName.contains("Heater")) {
+               } else if(applianceName.contains("WH")) {
                    // add event to eventQueue of WaterHeater
                    waterHeater.addEvent(event);
                } else {
                    // Unrecognized appliance in input
-                   System.out.println("Unkown appliance: " + applianceName);
+                   System.out.println("Unknown appliance: " + applianceName);
                    
                }
                
@@ -60,16 +68,11 @@ public class Main {
         }
 
         catch(IOException e) { // Handle IO Exception
-            
+            System.out.println(e.getMessage());
         }
         
         finally {
-            try {
-                br.close();
-            }
-            catch(IOException e) { // Handle IO Exception
-                
-            }
+            
 
         }
     }
