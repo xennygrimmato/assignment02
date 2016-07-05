@@ -47,10 +47,10 @@ public class Main {
                
                if(applianceName.contains("AC")) {
                    // add event to eventQueue of AirConditioner
-                   System.out.println("READ: AC");
-                   System.out.println(event.getStatus());
-                   System.out.println(event.getTime());
-                   System.out.println("=========");
+                   //System.out.println("READ: AC");
+                   //System.out.println(event.getStatus());
+                   //System.out.println(event.getTime());
+                   //System.out.println("=========");
                    airConditioner.addEvent(event);
                } else if(applianceName.contains("OVEN")) {
                    // add event to eventQueue of CookingOven
