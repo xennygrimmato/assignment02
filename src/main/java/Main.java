@@ -13,14 +13,26 @@ public class Main {
     private static CookingOven cookingOven;
     private static WaterHeater waterHeater;
     private static BufferedReader br;
+    private static String filePath = "/projects/assignment02/src/main/input.txt";
     
-    public static void readFile() {
+    public static void setFilePath(String path) {
+        filePath = path;
+    }
+    
+    public static String getFilePath() {
+        return filePath;
+    }
+    
+    public static void setMySmartHome(SmartHome smartHome) {
+        mySmartHome = smartHome;
+    }
+    
+    public static void readFile(String FILEPATH) {
         try {
-            br = new BufferedReader(new FileReader("/projects/assignment02/src/main/input.txt"));
+            br = new BufferedReader(new FileReader(FILEPATH));
             String line;
             while ((line = br.readLine()) != null) {
-                //System.out.println(line);
-               // process the line
+
                List<String> items = Arrays.asList(line.split(" "));
                
                // Line must have 3 space-separated or comma-separated inputs
@@ -58,7 +70,6 @@ public class Main {
                    System.out.println("Unknown appliance: " + applianceName);
                    // can possibly auto-generate class for this new appliance
                }
-               
             }
         }
 
@@ -115,11 +126,9 @@ public class Main {
         mySmartHome.addAppliance(waterHeater);
         
         // read commands from file and events to respective queues
-        readFile();
+        readFile(filePath);
         
         // start time ticker
         simulate();
     }
-    
-
 }
