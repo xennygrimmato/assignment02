@@ -13,22 +13,30 @@ public class Main {
     private static CookingOven cookingOven;
     private static WaterHeater waterHeater;
     private static BufferedReader br;
+    private static String filePath = "/projects/assignment02/src/main/input.txt";
     
-    public static void readFile() {
+    public static void setFilePath(String path) {
+        filePath = path;
+    }
+    
+    public static String getFilePath() {
+        return filePath;
+    }
+    
+    public static void setMySmartHome(SmartHome smartHome) {
+        mySmartHome = smartHome;
+    }
+    
+    public static void readFile(String FILEPATH) {
         try {
-            br = new BufferedReader(new FileReader("/projects/assignment02/src/main/input.txt"));
+            br = new BufferedReader(new FileReader(FILEPATH));
             String line;
             while ((line = br.readLine()) != null) {
-                //System.out.println(line);
-               // process the line
+
                List<String> items = Arrays.asList(line.split(" "));
                
                // Line must have 3 space-separated or comma-separated inputs
                if(items.size() < 3) {
-                   //System.out.println(line);
-                   //break;
-                   //System.out.println("Size = " + items.size());
-                   //System.out.println("Inside < 3 if. Continuing...");
                    continue;
                }
                
@@ -47,23 +55,21 @@ public class Main {
                
                if(applianceName.contains("AC")) {
                    // add event to eventQueue of AirConditioner
-                   //System.out.println("READ: AC");
-                   //System.out.println(event.getStatus());
-                   //System.out.println(event.getTime());
-                   //System.out.println("=========");
-                   airConditioner.addEvent(event);
+                   if(!airConditioner.getEventQueue().contains(event))
+                        airConditioner.addEvent(event);
                } else if(applianceName.contains("OVEN")) {
                    // add event to eventQueue of CookingOven
-                   cookingOven.addEvent(event);
+                   if(!cookingOven.getEventQueue().contains(event))
+                        cookingOven.addEvent(event);
                } else if(applianceName.contains("WH")) {
                    // add event to eventQueue of WaterHeater
-                   waterHeater.addEvent(event);
+                    if(!waterHeater.getEventQueue().contains(event))
+                        waterHeater.addEvent(event);
                } else {
                    // Unrecognized appliance in input
                    System.out.println("Unknown appliance: " + applianceName);
-                   
+                   // can possibly auto-generate class for this new appliance
                }
-               
             }
         }
 
@@ -89,6 +95,9 @@ public class Main {
                 mySmartHome.incrementTimer();
                 if(mySmartHome.eventChange()) {
                     mySmartHome.printStatus();    
+                }
+                if(mySmartHome.allEventQueuesComplete()) {
+                    break;
                 }
                 Thread.sleep(1000);
             }
@@ -117,11 +126,9 @@ public class Main {
         mySmartHome.addAppliance(waterHeater);
         
         // read commands from file and events to respective queues
-        readFile();
+        readFile(filePath);
         
         // start time ticker
         simulate();
     }
-    
-
 }

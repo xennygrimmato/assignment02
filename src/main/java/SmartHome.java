@@ -19,6 +19,10 @@ public class SmartHome {
         applianceList.remove(appliance);
     }
     
+    public List<Appliance> getApplianceList() {
+        return this.applianceList;
+    }
+    
     public void printStatus() {
         // Prints status of each appliance in applianceList
         System.out.println("Time = " + this.timer);
@@ -57,5 +61,16 @@ public class SmartHome {
             }
         }
         return changeStatus;
+    }
+    
+    public boolean allEventQueuesComplete() {
+        boolean completeStatus = true;
+        for(Appliance appliance : applianceList) {
+            if(appliance.getEventQueue().size() > 0) {
+                completeStatus = false;
+                break;
+            }
+        }
+        return completeStatus;
     }
 }
