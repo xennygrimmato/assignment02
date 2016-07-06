@@ -1,2 +1,5 @@
 CommonApplianceTest.class
+WaterHeaterTest.class
+AirConditionerTest.class
 SmartHomeTest.class
+CookingOvenTest.class

@@ -62,5 +62,36 @@ public class SmartHomeTest {
     public void testEventChange() {
         SmartHome testSmartHome = new SmartHome();
         assertEquals(false, testSmartHome.eventChange());
+        
+        Event event1 = new Event(Status.ON,0);
+        CommonAppliance appliance1 = new CommonAppliance();
+        testSmartHome.getApplianceList().add(appliance1);
+        appliance1.getEventQueue().add(event1);
+        
+        CommonAppliance appliance2 = new CommonAppliance();
+        testSmartHome.getApplianceList().add(appliance2);
+
+        assertEquals(true, testSmartHome.eventChange());
+    }
+    
+    @Test
+    public void testAllEventQueuesComplete() {
+        SmartHome testSmartHome = new SmartHome();
+        
+        Event event1 = new Event(Status.ON,0);
+        CommonAppliance appliance1 = new CommonAppliance();
+        testSmartHome.getApplianceList().add(appliance1);
+        appliance1.getEventQueue().add(event1);
+        
+        CommonAppliance appliance2 = new CommonAppliance();
+        testSmartHome.getApplianceList().add(appliance2);
+        
+        assertEquals(false, testSmartHome.allEventQueuesComplete());
+        
+        appliance1.getEventQueue().remove(0);
+        testSmartHome.removeAppliance(appliance2);
+        assertEquals(true, testSmartHome.allEventQueuesComplete());
+        
+        testSmartHome.printStatus();
     }
 }
