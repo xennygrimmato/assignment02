@@ -45,8 +45,8 @@ public class CommonAppliance implements Appliance {
 <span class="fc" id="L45">        this.eventQueue.add(event);</span>
 <span class="fc" id="L46">        Status status = event.getStatus();</span>
 <span class="fc" id="L47">        Integer time = event.getTime();</span>
-<span class="pc bpc" id="L48" title="1 of 4 branches missed.">        if(status == Status.ON &amp;&amp; this.autoOffTime != 0) {</span>
-<span class="nc" id="L49">            this.eventQueue.add(new Event(Status.OFF, time + this.autoOffTime));</span>
+<span class="fc bfc" id="L48" title="All 4 branches covered.">        if(status == Status.ON &amp;&amp; this.autoOffTime != 0) {</span>
+<span class="fc" id="L49">            this.eventQueue.add(new Event(Status.OFF, time + this.autoOffTime));</span>
         }
 <span class="fc" id="L51">    }</span>
     
